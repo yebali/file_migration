@@ -10,18 +10,24 @@ import java.nio.file.Files
 class FileService {
     fun copy(command: CopyFile.Command): Result<Unit> {
         val sourceFile = File(command.source)
-        val targetFile = File(command.target)
+        val destinationFile = File(command.destination)
 
         if (!sourceFile.exists()) {
             return Result.failure(NoSuchFileException(sourceFile))
         }
 
-        if (targetFile.exists()) {
-            return Result.failure(FileAlreadyExistsException(targetFile))
+        if (destinationFile.exists()) {
+            return Result.failure(FileAlreadyExistsException(destinationFile))
         }
 
         return runCatching {
-            Files.copy(sourceFile.toPath(), targetFile.toPath())
+            logger.info { "Move ${sourceFile.parentFile} -> ${destinationFile.toPath()}" }
+
+            if (!destinationFile.parentFile.exists()) {
+                destinationFile.parentFile.mkdirs()
+            }
+
+            Files.copy(sourceFile.toPath(), destinationFile.toPath())
         }.fold(
             onSuccess = { Result.success(Unit) },
             onFailure = { e -> Result.failure(e) },

@@ -21,5 +21,5 @@ management:
       show-details: always
 
 migration:
-  source-root-path: C:\Users\GMD_SOFT\Desktop
-  target-root-path: D:\
+  source-root-path: /Users/kwon-yeseong/Desktop
+  destination-root-path: /Users/kwon-yeseong/Desktop/dest

@@ -24,14 +24,14 @@ class MigrationService(
         val shortUrls = shortUrlRepository.findAllById(command.tokens)
 
         logger.info { "[${MigrationService::class.simpleName}] Start migration. " }
-        logger.info { "Tokens: ${shortUrls.joinToString("\n") { it.id }}" }
+        logger.info { "Tokens:\n${shortUrls.joinToString("\n") { it.id }}" }
 
         return shortUrls
             .map { shortUrl ->
                 shortUrl.id to fileService.copy(
                     command = CopyFile.Command(
                         source = migrationConfig.sourceRootPath + shortUrl.relativePath,
-                        target = migrationConfig.targetRootPath + "${shortUrl.id.take(3)}/${shortUrl.id}",
+                        destination = migrationConfig.destinationRootPath + "/${shortUrl.id.take(3)}/${shortUrl.id}",
                     ),
                 )
             }

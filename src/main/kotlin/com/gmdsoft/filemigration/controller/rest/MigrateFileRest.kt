@@ -17,20 +17,10 @@ interface MigrateFileRest {
             val message: String,
         )
 
-        enum class Status(value: Boolean?) {
-            SUCCESS(true),
-            FAILURE(false),
-            IN_PROGRESS(null),
-            ;
-
-            companion object {
-                fun from(value: Boolean): Status {
-                    return when (value) {
-                        true -> SUCCESS
-                        false -> FAILURE
-                    }
-                }
-            }
+        enum class Status {
+            SUCCESS,
+            FAILURE,
+            IN_PROGRESS,
         }
 
         companion object {
@@ -58,7 +48,7 @@ interface MigrateFileRest {
                                     Migration(
                                         token = token,
                                         status = Status.FAILURE,
-                                        message = e.message ?: "-",
+                                        message = e.toString(),
                                     )
                                 },
                             )

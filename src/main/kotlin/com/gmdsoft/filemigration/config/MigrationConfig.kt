@@ -5,5 +5,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 @ConfigurationProperties("migration")
 data class MigrationConfig(
     val sourceRootPath: String,
-    val targetRootPath: String,
+    val destinationRootPath: String,
 )
